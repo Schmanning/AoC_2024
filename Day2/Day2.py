@@ -1,3 +1,10 @@
+# Imports
+import time
+
+# Zeit Start
+start = time.time()
+
+# Main
 f = open("C:/dev/AdventOfCode/2024/Day2/input.txt", "r").readlines()
 
 
@@ -20,3 +27,7 @@ for i in range(len(f)):
 
 print(safe_count)
 
+
+ende = time.time()
+print('Zeit:   {:.3f}s'.format(ende-start))
+# 0.003s

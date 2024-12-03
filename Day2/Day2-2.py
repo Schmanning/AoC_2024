@@ -1,33 +1,39 @@
+# Imports
+import time
+
+# Zeit Start
+start = time.time()
+
+# Main
 f = open("C:/dev/AdventOfCode/2024/Day2/input.txt", "r").readlines()
+
+
+def check_safe(line: list) -> int:
+    for remove_index in range(len(line)):
+        temp_line = line[:remove_index] + line[remove_index+1:]
+        ascending = temp_line[0] < temp_line[1]
+        report_safe = True
+
+        for j in range(len(temp_line) - 1):
+            if abs(temp_line[j] - temp_line[j+1]) > 3 or \
+                (ascending == True and temp_line[j] >= temp_line[j+1]) or \
+                    (ascending == False and temp_line[j] <= temp_line[j+1]):
+                report_safe = False
+        
+        if report_safe:
+            return 1
+    return 0
+
 
 safe_count = 0
 
 for i in range(len(f)):
-    f[i] = f[i].replace("\n", "").split(" ")
-    for j in range(len(f[i])):
-        f[i][j] = int(f[i][j])
-    
-    report_safe = False
-
-    for removed_index in range(len(f[i])):
-        new_f = f[i][:]
-        del new_f[removed_index]
-
-        variant_safe = True
-        ascending = new_f[0] < new_f[1]
-        
-        for j in range(len(new_f) - 1):
-            if abs(new_f[j] - new_f[j+1]) > 3 or (ascending == True and new_f[j] >= new_f[j+1]) or (ascending == False and new_f[j] <= new_f[j+1]):
-                variant_safe = False
-                break
-        
-        if variant_safe:
-            report_safe = True
-            break
-    
-    if report_safe == True:
-        safe_count += 1
-    
-
+    current_line = [int(x) for x in f[i].replace("\n", "").split(" ")]
+    safe_count += check_safe(current_line)
 
 print(safe_count)
+
+
+ende = time.time()
+print('Zeit:   {:.3f}s'.format(ende-start))
+# 0.004s
